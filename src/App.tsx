@@ -134,15 +134,20 @@ export default function App() {
   }, [soapItems]);
 
   const handleInsertSelected = () => {
-    const activeEl = document.activeElement as HTMLTextAreaElement | HTMLInputElement;
     let selectedText = '';
-    if (activeEl && (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'INPUT')) {
+    const activeEl = document.activeElement;
+    
+    // Check if the currently active element is a text input/textarea
+    if (activeEl && (activeEl instanceof HTMLTextAreaElement || activeEl instanceof HTMLInputElement)) {
       selectedText = activeEl.value.substring(activeEl.selectionStart || 0, activeEl.selectionEnd || 0);
-    } else {
+    }
+    
+    // Fallback: Check window.getSelection() for contentEditable or other selected text
+    if (!selectedText) {
       selectedText = window.getSelection()?.toString() || '';
     }
     
-    if (!selectedText) {
+    if (!selectedText.trim()) {
       alert('テキストが選択されていません。挿入したい文字を選択してください。');
       return;
     }
@@ -474,6 +479,7 @@ export default function App() {
                 />
                 <div className="flex gap-2 mt-1">
                   <button 
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={handleInsertSelected}
                     className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 border border-blue-200"
                   >
@@ -508,6 +514,7 @@ export default function App() {
                 />
                 <div className="flex gap-2 mt-1">
                   <button 
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={handleInsertSelected}
                     className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 border border-blue-200"
                   >
