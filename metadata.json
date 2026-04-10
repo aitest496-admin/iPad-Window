@@ -1,0 +1,5 @@
+{
+  "name": "iPad Float Window",
+  "description": "A draggable floating window with two 10-line text areas that scroll independently.",
+  "requestFramePermissions": []
+}
